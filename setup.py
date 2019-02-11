@@ -16,7 +16,6 @@ setup(
     author='Michael Beck',
     classifiers=[
         'Development Status :: 3 - Alpha',
-        'Intended Audience :: Data Scientists',
         'Topic :: Scientific/Engineering :: Information Analysis',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.4',
