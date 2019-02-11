@@ -2,9 +2,6 @@ import pandas as pd
 import scipy.stats as scs
 
 def checkData(df):
-    """
-
-    """
     print("NaN Values")
     for c in df:
         print("{:40s}: {: 10d} / {: 10d}".format(c, df[c].isna().sum(), df[c].count()))
