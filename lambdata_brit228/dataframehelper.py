@@ -25,7 +25,8 @@ def confusionMatrix(pred, actual, outputs=[0,1]):
     Returns:
         None
     """
-    s = "{:20s}".format("")
+    print("{:20s} || Actual".format(""))
+    s = "{:20s} || ".format("Predicted")
     for c in outputs:
         C = str(c)
         if len(C) > 10:
@@ -36,7 +37,7 @@ def confusionMatrix(pred, actual, outputs=[0,1]):
         C = str(c)
         if len(C) > 20:
             C = C[:17] + "..."
-        s = "{:20s}".format(C)
+        s = "{:20s} || ".format(C)
         for d in outputs:
             s += "{: 10d}".format(pred[(pred == c) & (actual == d)].count())
         print(s)
