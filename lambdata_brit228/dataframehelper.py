@@ -17,7 +17,7 @@ def invalid_data_values(data_frame, invalid_dict):
     for key in invalid_dict:
         for val in invalid_dict[key]:
             data_frame[data_frame[key] == val][key] = np.nan
-    return dataframe
+    return data_frame
 
 def check_data(data_frame):
     """Prints NaN values for a Pandas DataFrame.
