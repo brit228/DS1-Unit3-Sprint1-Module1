@@ -4,6 +4,7 @@ import pandas as pd
 import scipy.stats as scs
 import numpy as np
 
+
 def invalid_data_values(data_frame, invalid_dict):
     """Replaces invalid values in a dictionary from a user-defined
     dictionary of column names corresponding to a list of invalid values.
@@ -19,6 +20,7 @@ def invalid_data_values(data_frame, invalid_dict):
             data_frame[data_frame[key] == val][key] = np.nan
     return data_frame
 
+
 def check_data(data_frame):
     """Prints NaN values for a Pandas DataFrame.
 
@@ -28,10 +30,12 @@ def check_data(data_frame):
         None
     """
     print("NaN Values")
+    format_string = "{:40s}: {: 10d} / {: 10d}"
     for col_name in data_frame:
-        print("{:40s}: {: 10d} / {: 10d}".format(col_name,
-                                                 data_frame[col_name].isna().sum(),
-                                                 data_frame[col_name].count()))
+        print(format_string.format(col_name,
+                                   data_frame[col_name].isna().sum(),
+                                   data_frame[col_name].count()))
+
 
 def confusion_matrix(pred, actual, outputs):
     """Prints confusion matrix for predicted vs actual series.
@@ -57,19 +61,24 @@ def confusion_matrix(pred, actual, outputs):
             out_string = out_string[:17] + "..."
         temp_string = "{:20s} || ".format(out_string)
         for out2 in outputs:
-            temp_string += "{: 10d}".format(pred[(pred == out1) & (actual == out2)].count())
+            count = pred[(pred == out1) & (actual == out2)].count()
+            temp_string += "{: 10d}".format(count)
         print(temp_string)
 
+
 def data_split(data_frame, ycols, train_ratio=0.5, val_ratio=0.25):
-    """Splits data into depednent and independent training, validation, and testing datasets.
+    """Splits data into depednent and independent training, validation, and
+    testing datasets.
 
     Args:
         data_frame: pandas dataframe
-        ycols: list of column values or column value for df which represent the depedent data
+        ycols: list of column values or column value for df which represent
+            the depedent data
         train_ratio: fraction of df for training (default 0.5)
         val_ratio: fraction of df for validation (default 0.25)
     Returns:
-        (X[training], X[validation], X[testing], y[training], y[validation], y[testing])
+        (X[training], X[validation], X[testing],
+            y[training], y[validation], y[testing])
             *** pandas dataframes/series
     """
     df_train = data_frame.sample(frac=train_ratio)
@@ -84,6 +93,7 @@ def data_split(data_frame, ycols, train_ratio=0.5, val_ratio=0.25):
             df_val[ycols],
             df_test[ycols])
 
+
 def generate_data(data_frame, nrows, nsamples=1):
     """Returns a dataframe with randomly copied rows copied a number of times.
 
@@ -97,6 +107,7 @@ def generate_data(data_frame, nrows, nsamples=1):
     for _ in range(nsamples):
         dfn = pd.concat([data_frame, data_frame.sample(n=nrows)], axis=0)
     return dfn
+
 
 def chi_viz(data_frame, col1, col2):
     """Prints contingency table and chi-squared statistics for it.

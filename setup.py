@@ -8,7 +8,7 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='lambdata-brit228',
-    version='0.0.4',
+    version='0.0.5',
     description='Pandas DataFrame helper utilities.',
     long_description=long_description,
     long_description_content_type='text/markdown',
@@ -27,7 +27,7 @@ setup(
     keywords='pandas helper utilities',
 
     packages=find_packages(exclude=['contrib', 'docs', 'tests']),
-    
+
     python_requires='>=3, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, <4',
 
     install_requires=['pandas', 'scipy'],

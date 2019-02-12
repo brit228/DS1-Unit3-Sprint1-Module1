@@ -4,6 +4,7 @@
 
 A set of utilities for Pandas DataFrame, including:
 
+  - Convert invalid values to NaN values using dictionary of column names to list of invalid values.
   - Checking for NaN values
   - Print confusion matrix for predicted vs actual values
   - Splitting data into training, validation, and testing datasets
