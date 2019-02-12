@@ -115,3 +115,6 @@ dmypy.json
 
 # Editor directory
 .vscode/
+
+# Personal
+.setup.py

@@ -3,7 +3,7 @@
 import pandas as pd
 import scipy.stats as scs
 import numpy as np
-import typing
+from typing import Union
 
 
 class DataFrameHelper:
@@ -131,8 +131,8 @@ class DataFrameHelper:
         print("expected frequencies", expected)
 
 
-def confusion_matrix(pred: typing.Union[pd.Series, pd.DataFrame],
-                     actual: typing.Union[pd.Series, pd.DataFrame],
+def confusion_matrix(pred: Union[pd.Series, pd.DataFrame],
+                     actual: Union[pd.Series, pd.DataFrame],
                      outputs: list) -> None:
     """Prints confusion matrix for predicted vs actual series.
 
