@@ -2,6 +2,22 @@
 
 import pandas as pd
 import scipy.stats as scs
+import numpy as np
+
+def invalid_data_values(data_frame, invalid_dict):
+    """Replaces invalid values in a dictionary from a user-defined
+    dictionary of column names corresponding to a list of invalid values.
+
+    Args:
+        data_frame: pandas dataframe
+        invalid_dict: dictionary of column names to list of invalid values
+    Returns:
+        pandas dataframe
+    """
+    for key in invalid_dict:
+        for val in invalid_dict[key]:
+            data_frame[data_frame[key] == val][key] = np.nan
+    return dataframe
 
 def check_data(data_frame):
     """Prints NaN values for a Pandas DataFrame.
