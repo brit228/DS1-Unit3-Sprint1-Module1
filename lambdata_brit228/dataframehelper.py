@@ -6,7 +6,7 @@ import numpy as np
 from typing import Union
 
 
-class DataFrameHelper:
+class DataFrameObj:
     """Class for pandas dataframe that contains several helper functions.
 
     Args:

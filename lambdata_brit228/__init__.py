@@ -1,3 +1,3 @@
 """A set of utilities for Pandas DataFrames."""
 
-from .dataframehelper import *
+from . import dataframehelper
