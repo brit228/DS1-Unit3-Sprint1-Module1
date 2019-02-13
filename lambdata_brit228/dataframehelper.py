@@ -77,7 +77,6 @@ class DataFrameObj:
         Returns:
             (X_train, X_val, X_test,
              y_train, y_val, y_test)
-                *** pandas dataframes/series
         """
         df_train = self.data_frame.sample(frac=train_ratio)
         data_frame_n = self.data_frame.drop(df_train.index)
