@@ -44,7 +44,8 @@ class DataFrameObj:
         """
         for key in invalid_dict:
             for val in invalid_dict[key]:
-                self.data_frame[self.data_frame[key] == val][key] = np.nan
+                self.data_frame.loc[lambda data_frame:
+                                    self.data_frame[key] == val, key] = np.nan
         return self.data_frame
 
     def check_data(self) -> None:
