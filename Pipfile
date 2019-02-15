@@ -7,9 +7,9 @@ verify_ssl = true
 twine = "*"
 
 [packages]
-numpy = "*"
 pandas = "*"
 scipy = "*"
+numpy = "*"
 
 [requires]
 python_version = "3.7"

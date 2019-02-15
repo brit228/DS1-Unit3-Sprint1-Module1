@@ -1,4 +1,4 @@
-"""Helper utility functions for Pandas DataFrames."""
+"""Helper utility functions and class for Pandas DataFrames."""
 
 import pandas as pd
 import scipy.stats as scs
@@ -64,9 +64,10 @@ class DataFrameObj:
                                        self.data_frame[col_name].count()))
 
     def data_split(self, ycols: list, train_ratio: float = 0.5,
-                   val_ratio: float = 0.25) -> (pd.DataFrame, pd.DataFrame,
-                                                pd.DataFrame, pd.DataFrame,
-                                                pd.DataFrame, pd.DataFrame):
+                   val_ratio: float = 0.25, random_seed: int = 42,
+                   shuffle: bool = True) -> (pd.DataFrame, pd.DataFrame,
+                                             pd.DataFrame, pd.DataFrame,
+                                             pd.DataFrame, pd.DataFrame):
         """Splits data into depednent and independent training, validation, and
         testing datasets.
 
@@ -75,14 +76,26 @@ class DataFrameObj:
                 the depedent data
             train_ratio: fraction of df for training (default 0.5)
             val_ratio: fraction of df for validation (default 0.25)
+            random_seed: integer seed for random sampling (default 42)
+            shuffle: random (True) or ordered (False) sampling (default True)
         Returns:
             (X_train, X_val, X_test,
              y_train, y_val, y_test)
         """
-        df_train = self.data_frame.sample(frac=train_ratio)
-        data_frame_n = self.data_frame.drop(df_train.index)
-        df_val = data_frame_n.sample(frac=val_ratio)
-        df_test = data_frame_n.drop(df_val.index)
+        df_train = None
+        df_val = None
+        df_test = None
+        if shuffle:
+            df_train = self.data_frame.sample(frac=train_ratio, random_state=random_seed)
+            data_frame_n = self.data_frame.drop(df_train.index)
+            df_val = data_frame_n.sample(frac=val_ratio, random_state=random_seed)
+            df_test = data_frame_n.drop(df_val.index)
+        else:
+            train_rows = int(train_ratio * self.data_frame.shape[0])
+            val_rows = train_rows + int(val_ratio * self.data_frame.shape[0])
+            df_train = self.data_frame.iloc[:train_rows]
+            df_val = self.data_frame.iloc[train_rows:val_rows]
+            df_test = self.data_frame.iloc[val_rows:]
 
         xcols = [c for c in self.data_frame if c not in ycols]
 
@@ -96,20 +109,21 @@ class DataFrameObj:
         return (self.X_train, self.X_val, self.X_test,
                 self.y_train, self.y_val, self.y_test)
 
-    def generate_data(self, nrows: int, nsamples: int = 1) -> pd.DataFrame:
+    def generate_data(self, n_rows: int, n_samples: int = 1,
+                      random_seed: int = 42) -> pd.DataFrame:
         """Returns a dataframe with randomly copied rows copied a number of
         times.
 
         Args:
             nrows: number of rows to sample
             nsamples: number of times to sample dataframe (default 1)
+            random_seed: integer seed for random sampling (default 42)
         Returns:
             pandas dataframe
         """
-        for _ in range(nsamples):
-            self.data_frame = pd.concat([self.data_frame,
-                                         self.data_frame.sample(n=nrows)],
-                                        axis=0)
+        for _ in range(n_samples):
+            df_samp = self.data_frame.sample(n=n_rows, random_state=random_seed)
+            self.data_frame = pd.concat([self.data_frame, df_samp], axis=0)
         return self.data_frame
 
     def chi_viz(self, col1, col2) -> None:
@@ -131,8 +145,8 @@ class DataFrameObj:
         print("expected frequencies", expected)
 
 
-def confusion_matrix(pred: Union[pd.Series, pd.DataFrame],
-                     actual: Union[pd.Series, pd.DataFrame],
+def confusion_matrix(pred: pd.Series,
+                     actual: pd.Series,
                      outputs: list) -> None:
     """Prints confusion matrix for predicted vs actual series.
 
